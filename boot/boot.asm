@@ -89,7 +89,7 @@ ok_load_setup:
   je root_defined
   mov ax,0x021c
   cmp bx,18
-  je root_define
+  je root_defined
 undef_root:
   jmp undef_root
 root_defined:
@@ -201,7 +201,7 @@ msg1:
   db "pzt learning linux"
   db 13,10,13,10
 
-times 510 - ($-$$) db 0
+times 508 - ($-$$) db 0
 root_dev:
   dw ROOT_DEV
 boot_flag:
