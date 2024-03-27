@@ -3,3 +3,4 @@ The aim of this project is to learn how a machine start and run an operate syste
 Usage of Directory:
 -boot: load and setup
 -backup: individual test
+-test: file for test code

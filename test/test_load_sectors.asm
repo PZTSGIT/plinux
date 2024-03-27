@@ -1,4 +1,5 @@
-times 512 * 17 + 512 * 18 * 13 db 0
+jmp $
+;times 512 * 17 + 512 * 18 * 13 db 0
 ;db 0x01
 ;times 511 db 0
 ;times 512*16 db 0

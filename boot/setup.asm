@@ -91,6 +91,70 @@ end_move:
   mov ds,ax
   lidt [idt_48]
   lgdt [gdt_48]
+  
+;enable A20
+  call empty_8042
+  mov al,0xD1
+  out 0x64,al
+  call empty_8042
+  mov al,0xdf
+  out 0x60,al
+  call empty_8042 
+
+;set interupt
+;it seems that send data to 0x20 and 0xa0 port will start to set iCW1-4
+  mov al,0x11
+  out 0x20,al
+  dw 0x00eb,0x00eb
+  out 0xa0,al
+  dw 0x00eb,0x00eb
+
+;start of hw int's 0x20
+  mov al,0x20
+  out 0x21,al
+  dw 0x00eb,0x00eb
+
+;start of hw int's 2 0x28
+  mov al,0x28
+  out 0xa1,al
+  dw 0x00eb,0x00eb
+
+;8259-1 master
+  mov al,0x04
+  out 0x21,al
+  dw 0x00eb,0x00eb
+
+;8259-2 slave
+  mov al,0x02
+  out 0xa1,al
+  dw 0x00eb,0x00eb
+
+;8086 mode
+  mov al,0x01
+  out 0x21,al
+  dw 0x00eb,0x00eb
+  out 0xa1,al
+  dw 0x00eb,0x00eb
+
+;mask off all interrupts for now
+  mov al,0xff
+  out 0x21,al
+  dw 0x00eb,0x00eb
+  out 0xa1,al 
+  
+  
+;set protected mode and jump
+  mov ax,0x0001
+  lmsw ax; load machine status word
+  jmp 8:0; 8>>3=1 goto second gdt, offset is 0
+
+
+empty_8042:
+  dw 0x00eb,0x00eb
+  in al,0x64
+  test al,2; al and 2, set SF,ZF,PF
+  jnz empty_8042
+  ret
 
 gdt:
   dw 0,0,0,0
