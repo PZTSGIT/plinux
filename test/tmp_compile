@@ -1,3 +1,4 @@
 gcc -march=i386 -c init/main.c -o init/main.o -nostdinc -m32
 gcc -m32 -traditional -c boot/head.s -o boot/head.o
-ld boot/head.o init/main.o -m i386pe -e startup_32 --image-base 0x0 -o bin/system -s -x -Ttext 0
+#ld boot/head.o init/main.o -m elf_i386 -e startup_32 --image-base 0x0 -o bin/system -s -x -Ttext 0
+ld boot/head.o init/main.o -m elf_i386 -e startup_32  -o bin/system -s -Ttext 0 -x
