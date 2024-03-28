@@ -4,6 +4,18 @@
 _pg_dir:
 .globl startup_32
 startup_32:
-  call start 
-hold_on:
-  jmp hold_on
+  
+  jmp after_page_tables
+
+after_page_tables:
+  pushl $0
+  pushl $0
+  pushl $0
+  pushl $L6
+  pushl $start
+  jmp setup_paging
+L6:
+  jmp L6
+
+setup_paging:
+  ret

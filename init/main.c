@@ -1,4 +1,5 @@
 
 void start(void) {
-    
+	for (;;) {
+	}
 }
