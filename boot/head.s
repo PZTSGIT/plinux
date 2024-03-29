@@ -128,6 +128,27 @@ ignore_int:
 
 .align 2
 setup_paging:
+  movl $1024*5,%ecx
+  xorl %eax,%eax
+  xorl %edi,%edi
+
+  cld;rep;stosl
+  movl $pg0+7,_pg_dir
+  movl $pg1+7,_pg_dir+4
+  movl $pg2+7,_pg_dir+8
+  movl $pg3+7,_pg_dir+12
+  movl $pg3+4092,%edi
+  movl $0xfff007,%eax
+  std #set df flag 1, di will decrease
+1:
+  stosl #store eax at es:di
+  subl $0x1000,%eax
+  jge 1b
+  xorl %eax,%eax
+  movl %eax,%cr3 #cr3 is the address of PDE
+  movl %cr0,%eax
+  orl $0x80000000,%eax
+  movl %eax,%cr0
   ret
 
 .align 2

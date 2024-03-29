@@ -9,7 +9,7 @@ DD_BS = 512
 DFLAGS = conv=notrunc bs=$(DD_BS)
 DD_1 = count=1 seek=0
 DD_2_5 = count=4 seek=1
-DD_6_ = count=256 seek=5 skip=5
+DD_6_ = count=256 seek=5 skip=8
 
 LD = ld
 LFLAGS=-e startup_32 -s -x -Ttext 0 -melf_i386
